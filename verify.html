@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .verify-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            width: 400px;  /* Adjust the width as needed */
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .code-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .code-input {
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+        .code-input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+        .timer {
+            font-size: 16px;
+            color: red;
+            margin-top: 10px;
+        }
+        .notice {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="verify-container">
+        <div class="notice">
+            Potvrzovací kód byl zaslán na vaši emailovou adresu. Pokud jste nic neobrdželi, zkotrolujte prosím spam schránku.
+        </div>
+        <form id="verifyForm">
+            <div class="input-group">
+                <label for="code">Vložte kód:</label>
+                <div class="code-inputs">
+                    <input type="text" class="code-input" id="code1" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="code-input" id="code2" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="code-input" id="code3" maxlength="1" pattern="[0-9]" required>
+                </div>
+            </div>
+            <div class="timer" id="timer">15:00</div>
+        </form>
+    </div>
+    <script>
+        var countdownDate = new Date(new Date().getTime() + 15 * 60 * 1000); // 15 minutes from now
+        var timerElement = document.getElementById('timer');
+        
+        function updateTimer() {
+            var now = new Date().getTime();
+            var distance = countdownDate - now;
+
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            timerElement.innerHTML = minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+
+            if (distance < 0) {
+                timerElement.innerHTML = "EXPIRED";
+                clearInterval(timerInterval);
+            }
+        }
+        var timerInterval = setInterval(updateTimer, 1000);
+
+        // Focus on the next input box automatically
+        document.querySelectorAll('.code-input').forEach((input, index, inputs) => {
+            input.addEventListener('input', () => {
+                if (input.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+                // Check if all inputs are filled
+                if (Array.from(inputs).every(input => input.value.length === 1)) {
+                    handleSubmit();
+                }
+            });
+        });
+
+        function handleSubmit() {
+            var code = document.getElementById('code1').value + document.getElementById('code2').value + document.getElementById('code3').value;
+            if (code) {
+                // Simulate verification and then redirect to a success page
+                // In a real application, you would send the code to the server here
+                window.location.href = 'success.html';  // Redirect to a success page
+            }
+        }
+    </script>
+</body>
+</html>
