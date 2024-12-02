@@ -63,7 +63,7 @@
 <body>
     <div class="header">RV vizualizace</div>
     <div class="info-text">
-        Test Aplikace zpřístupnění výsledků výběrového šetření nákladů a výnosů v zemědělství. Pokud se chcete registrovat, zašlete email na: <a href="mailto:example.com">example.com</a>.
+        Aplikace zpřístupnění výsledků výběrového šetření nákladů a výnosů v zemědělství. Pokud se chcete registrovat, zašlete email na: <a href="mailto:example.com">example.com</a>.
     </div>
     <div class="login-container">
         <form id="loginForm">
@@ -84,6 +84,7 @@
             const responseMessage = document.getElementById('responseMessage');
 
             try {
+                console.log("brekeke");
                 const response = await fetch('https://klu06f5ye9.execute-api.eu-north-1.amazonaws.com/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -96,6 +97,7 @@
                     responseMessage.style.color = 'green';
                     window.location.href = 'verify.html';
                 } else {
+                    console.log("brekeke sad");
                     responseMessage.textContent = 'Failed to send the email.';
                     responseMessage.style.color = 'red';
                 }
