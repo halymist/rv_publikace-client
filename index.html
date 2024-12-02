@@ -92,6 +92,7 @@
                 });
 
                 if (response.ok) {
+                    console.log("brekeke good");
                     const result = await response.text(); // Capture the server response
                     responseMessage.textContent = result;
                     responseMessage.style.color = 'green';
